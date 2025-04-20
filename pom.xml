@@ -71,9 +71,13 @@
                <version>8.0.33</version>
             </dependency>
 <!--        flyway -->
+        <dependency>
+            <groupId>org.flywaydb</groupId>
+            <artifactId>flyway-mysql</artifactId>
+        </dependency>
 <!--        <dependency>-->
 <!--            <groupId>org.flywaydb</groupId>-->
-<!--            <artifactId>flyway-mysql<mvc/artifactId>-->
+<!--            <artifactId>flyway-core</artifactId>-->
 <!--        </dependency>-->
 
 
