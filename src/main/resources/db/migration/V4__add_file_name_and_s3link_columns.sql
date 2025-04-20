@@ -1,0 +1,2 @@
+ALTER TABLE documents ADD COLUMN file_name VARCHAR(255);
+ALTER TABLE documents ADD COLUMN s3link VARCHAR(255);

@@ -23,4 +23,5 @@
 
 **Known Issues:**
 
-*   None.
+*   Implemented file upload functionality.
+*   Implemented metadata storage in the database.
