@@ -21,4 +21,12 @@ public class Document {
     private String s3Link;
 
     private Date uploadDate;
+
+    @Column(nullable = false)
+    private Integer version;
+
+    private String s3Key;
+
+
+    private Long uploadedBy;
 }

@@ -40,10 +40,18 @@ public class DocumentService {
         String s3Link = s3Client.utilities().getUrl(builder -> builder.bucket(bucketName).key(key)).toString();
 
         // Save document information to the database
-        Document document = new Document();
-        document.setName(file.getOriginalFilename());
+        String fileName = file.getOriginalFilename();
+        Document document = documentRepository.findByName(fileName);
+        Integer version = 1;
+        if (document != null) {
+            version = document.getVersion() + 1;
+        }
+        document = new Document();
+        document.setName(fileName);
         document.setS3Link(s3Link);
+        document.setS3Key(key);
         document.setUploadDate(new Date());
+        document.setVersion(version);
         documentRepository.save(document);
 
         return s3Link;
