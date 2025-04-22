@@ -1,6 +1,9 @@
 package com.security.documentversioncontrol.controller;
 
+import com.security.documentversioncontrol.dto.response.ApiResponse;
+import com.security.documentversioncontrol.dto.response.UploadDocumentResponse;
 import com.security.documentversioncontrol.service.DocumentService;
+import com.security.documentversioncontrol.utils.ResponseBuilder;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -16,12 +19,13 @@ public class DocumentController {
     private DocumentService documentService;
 
     @PostMapping("/upload")
-    public ResponseEntity<String> uploadDocument(@RequestParam("file") MultipartFile file) {
+    public ResponseEntity<ApiResponse<UploadDocumentResponse>> uploadDocument(@RequestParam("file") MultipartFile file) {
         try {
-            String s3Link = documentService.uploadDocument(file);
-            return new ResponseEntity<>(s3Link, HttpStatus.OK);
-        } catch (IOException e) {
-            return new ResponseEntity<>("Error uploading document", HttpStatus.INTERNAL_SERVER_ERROR);
+            UploadDocumentResponse uploadDocumentResponse = documentService.uploadDocument(file);
+            return ResponseEntity.ok(ResponseBuilder.success(uploadDocumentResponse, "Document uploaded successfully"));
+        }
+        catch (IOException e) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(ResponseBuilder.error("Failed to upload document", HttpStatus.INTERNAL_SERVER_ERROR));
         }
     }
 }

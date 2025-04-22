@@ -1,6 +1,8 @@
 package com.security.documentversioncontrol.service;
 
 import com.security.documentversioncontrol.config.S3Config;
+import com.security.documentversioncontrol.dto.response.ApiResponse;
+import com.security.documentversioncontrol.dto.response.UploadDocumentResponse;
 import com.security.documentversioncontrol.entity.Document;
 import com.security.documentversioncontrol.repository.DocumentRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -26,7 +28,7 @@ public class DocumentService {
     @Autowired
     private DocumentRepository documentRepository;
 
-    public String uploadDocument(MultipartFile file) throws IOException {
+    public UploadDocumentResponse uploadDocument(MultipartFile file) throws IOException {
         String bucketName = s3Config.getBucketName();
         String key = UUID.randomUUID().toString() + "-" + file.getOriginalFilename();
 
@@ -54,6 +56,11 @@ public class DocumentService {
         document.setVersion(version);
         documentRepository.save(document);
 
-        return s3Link;
+      UploadDocumentResponse response = new UploadDocumentResponse();
+        response.setFileName(fileName);
+        response.setVersion(version.toString());
+        response.setS3Link(s3Link);
+
+        return response;
     }
 }
